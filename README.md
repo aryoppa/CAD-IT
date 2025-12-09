@@ -48,7 +48,7 @@ erDiagram
     GENRES ||--o{ MOVIE_GENRES : defines
 
     MOVIES {
-        int MovieID PK
+        int MovieID
         string Title
         int Year
         decimal Rating
@@ -56,10 +56,10 @@ erDiagram
         decimal Gross
     }
     PERSONS {
-        int PersonID PK
+        int PersonID
         string Name
     }
     GENRES {
-        int GenreID PK
+        int GenreID
         string Name
     }
