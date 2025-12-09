@@ -105,28 +105,26 @@ SELECT * FROM GetFilmsByActor('Lena Headey');
 
 -- Stored Procedure for Director-Actor Collaboration
 
+-- 2. Buat ulang fungsi dengan definisi yang benar
 CREATE OR REPLACE FUNCTION GetDirectorActorCollab(dir_name TEXT, actor_name TEXT)
 RETURNS TABLE (
-    out_title TEXT,  
-    out_year TEXT,
+    out_title TEXT,      
+    out_year INTEGER,    -- Gunakan INTEGER agar sesuai dengan schema tabel Movies
     out_rating NUMERIC 
 ) 
 AS $$
 BEGIN
     RETURN QUERY
     SELECT 
-        m.title::TEXT,     
-        m.year::TEXT,    
-        m.rating::NUMERIC 
-    FROM movies m
-    JOIN movie_directors md ON m.movieid = md.movieid
-    JOIN persons pd ON md.personid = pd.personid
-    JOIN movie_stars ms ON m.movieid = ms.movieid
-    JOIN persons ps ON ms.personid = ps.personid
-    WHERE pd.name ILIKE dir_name 
-      AND ps.name ILIKE actor_name;
+        m.Title::TEXT,     
+        m.Year::INTEGER,     
+        m.Rating::NUMERIC 
+    FROM Movies m
+    JOIN Movie_Directors md ON m.MovieID = md.MovieID
+    JOIN Persons pd ON md.PersonID = pd.PersonID
+    JOIN Movie_Stars ms ON m.MovieID = ms.MovieID
+    JOIN Persons ps ON ms.PersonID = ps.PersonID
+    WHERE pd.Name ILIKE dir_name 
+      AND ps.Name ILIKE actor_name;
 END;
 $$ LANGUAGE plpgsql;
-
--- How to use the GetDirectorActorCollab function
-SELECT * FROM GetDirectorActorCollab('Martin Scorsese', 'Robert De Niro');
